@@ -4,7 +4,7 @@ html
   body
     h1= message
     each val in colors
-      a(href="http://localhost:3000/colors/" + val.color_id)
+      a(href="http://localhost:5000/colors/" + val.color_id)
         div(style="display:inline-block;box-shadow: 1px 1px 1px 1px; margin:15px;border-radius:10px;")
           div(style="background: #" + val.color_code + "; position:relative; display:inline-block; width:150px;height:150px; margin:10px;")
           p(style="margin:10px;")='#' + val.color_code
