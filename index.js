@@ -166,7 +166,7 @@ app.get('/colors', (req, res) => {
 
 
 
-app.get('/', (request, response) => {
+app.get('/', (req, res) => {
     Color.findAndCountAll({
         limit: req.query.limit,
         offset: req.skip,
