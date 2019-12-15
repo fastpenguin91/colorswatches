@@ -19,9 +19,12 @@ const Sequelize = require('sequelize');
 
 if (process.env.DATABASE_URL) { // production
     console.log("in production database setup!");
-  const sequelize = new Sequelize('colorsapp', 'postgres', 'password', {
+  //const sequelize = new Sequelize('colorsapp', 'postgres', 'password', {
+  const sequelize = new Sequelize(process.env.DATABASE_URL, {
+      dialect: 'postgres',
+      protocol: 'postgres',
+      port: match[4],
       host: match[3],
-      dialect: 'postgres'
   }, {
       pool: {
           max: 5,
