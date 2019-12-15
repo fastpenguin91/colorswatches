@@ -167,14 +167,27 @@ app.get('/colors', (req, res) => {
 
 
 app.get('/', (request, response) => {
+    Color.findAndCountAll({
+        limit: req.query.limit,
+        offset: req.skip,
+        attributes: ['color_id', 'color_code']
+    }).then(results => {
+        const itemCount = results.count;
+        const pageCount = Math.ceil(results.count / req.query.limit);
+        console.log(results.rows);
+        res.send("aaahhh so messy");
+        //res.render('colors', { title: "well", message: "hello colors", colors: results.rows, pageCount, itemCount, pages: paginate.getArrayPages(req)(3, pageCount, req.query.page)})
+    //});
+//        console.log("All colors: ", JSON.stringify(colors, null, 4));
+    });
 
-    pool.query('SELECT * FROM colors ORDER BY color_id ASC', (error, results) => {
+/*    pool.query('SELECT * FROM colors ORDER BY color_id ASC', (error, results) => {
       if (error) {
         throw error
-      }
+      }*/
 
 //    response.json({ info: 'Node.js, Express, and Postgres API' })
-      if (results.rows.length < 100) {
+      /*if (results.rows.length < 100) {
         console.log("indenting sucks in VSCode!");
         let theQuery = prepareQuery();
         console.log(theQuery);
@@ -189,8 +202,8 @@ app.get('/', (request, response) => {
         console.log("100 rows or more");
       }
 
-    });
-    response.render('index', { title: 'Hey', message: 'Hello there!' })
+    });*/
+    //response.render('index', { title: 'Hey', message: 'Hello there!' })
 })
 
 
