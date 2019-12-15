@@ -115,7 +115,10 @@ app.get('/colors/:color_id', (req, res) => {
     })
 })
 
-
+/* Ahh shoot. I guess this route isn't even necessary. I originally had the / route populate
+the database. But since I did it manually theres no need for the index route.
+Or... the index route can just list the colors like this route was intended to do.
+I'll remove this but I want to send over the code. lol*/
 app.get('/colors', (req, res) => {
     Color.findAndCountAll({
         limit: req.query.limit,
