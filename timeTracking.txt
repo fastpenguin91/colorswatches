@@ -30,3 +30,4 @@ removed a bunch of commented out code. I have an unnecessary route: "/colors" be
 database. But I'm going to send over the code anyways. I can clean things up more if you like, Just saw
 that "poor implementation" doesn't count negatively so I'll just see what you think as it is.
 
+30 min: Google fonts & stylesheet loading. 
