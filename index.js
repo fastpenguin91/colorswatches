@@ -17,17 +17,35 @@ const pool = new Pool({
 
 const Sequelize = require('sequelize');
 
-const sequelize = new Sequelize('colorsapp', 'postgres', 'password', {
-    host: 'localhost',
-    dialect: 'postgres'
-}, {
-    pool: {
-        max: 5,
-        min: 0,
-        acquire: 30000,
-        idle: 10000
-    }
-});
+if (process.env.DATABASE_URL) { // production
+    console.log("in production database setup!");
+  const sequelize = new Sequelize('colorsapp', 'postgres', 'password', {
+      host: match[3],
+      dialect: 'postgres'
+  }, {
+      pool: {
+          max: 5,
+          min: 0,
+          acquire: 30000,
+          idle: 10000
+      }
+  });
+
+} else { // local
+    console.log("setting up local database");
+  const sequelize = new Sequelize('colorsapp', 'postgres', 'password', {
+      host: 'localhost',
+      dialect: 'postgres'
+  }, {
+      pool: {
+          max: 5,
+          min: 0,
+          acquire: 30000,
+          idle: 10000
+      }
+  });
+
+}
 
 sequelize.authenticate()
 .then(() => {
