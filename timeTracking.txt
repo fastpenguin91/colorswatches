@@ -1,0 +1,32 @@
+1hr 40 min:
+
+Setting up & installing postgres on my machine. (new computer yay) figuring out Roles, database,
+inserted sample data with color_id and color_code.
+
+
+2hr:
+  VSCode (new editor i'm trying) doesn't indent properly when pasting
+  so I ended up with a missing }); that took me forever to find. Playing with Express.js routing
+and figuring out how to connect database to express.js. Haven't touched template engines in forever
+figured out PUG templates
+
+
+2hr: sequelize, view loops, pagination almost working using express-pagination.
+Need to backtrack and use sequelize ORM
+instead of just connecting directly to DB
+
+2hr: pagination was "working" but not filtering results due to me not using sequelize or some ORM.
+Got the pagination complete. Setup the view and route for single color & finishing touches.
+
+1hr: Deploying app on Heroku. Trying to figure out how to set environment variables and the URL so
+it works both locally and in production. Also Postgres Port & env variable are not working. figuring that out.
+
+1hr: I found my way into Postgres on Heroku, but they have like 100's of databases and all of them have gibberish names.
+So I have to figure out how to create and select the correct dataase for my app but I'm struggling
+to find any information on the subject.
+
+30 min: oh silly me. already connected to the DB. Just had to create table, populate info & push to github & heroku.
+removed a bunch of commented out code. I have an unnecessary route: "/colors" because I dont have to populate the 
+database. But I'm going to send over the code anyways. I can clean things up more if you like, Just saw
+that "poor implementation" doesn't count negatively so I'll just see what you think as it is.
+
