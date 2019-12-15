@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 const app = express()
 const port = process.env.PORT || 5000
 const paginate = require('express-paginate');
+app.use(express.static(__dirname + '/public'));
 
 const Pool = require('pg').Pool
 
