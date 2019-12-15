@@ -3,41 +3,16 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const app = express()
 const port = process.env.PORT || 5000
-//const db = require('./queries')
 const paginate = require('express-paginate');
 
 const Pool = require('pg').Pool
-const pool = new Pool(process.env.DATABASE_URL);
-/*const pool = new Pool({
-  user: 'postgres',
-  host: 'localhost',
-  database: 'colorsapp',
-  password: 'password',
-  port: 5432,
-})*/
 
 const Sequelize = require('sequelize');
 
-//if (process.env.DATABASE_URL) { // production
-//    console.log("in production database setup!");
 const sequelize = new Sequelize(process.env.DATABASE_URL);
-  //const sequelize = new Sequelize('colorsapp', 'postgres', 'password', {
-  //const sequelize = new Sequelize(process.env.DATABASE_URL, {
-  //    dialect: 'postgres',
-  //    protocol: 'postgres',
-//      port: match[4],
-//      host: match[3],
-//  }, {
-  //    pool: {
-    //      max: 5,
-      //    min: 0,
-        //  acquire: 30000,
-        //  idle: 10000
-     // }
-  //});
 
-//} else { // local
-//    console.log("setting up local database");
+ // This is how I setup the database locally. So... Local dev doesn't work anymore until
+ // I mess with the environment variables more
 //  const sequelize = new Sequelize('colorsapp', 'postgres', 'password', {
 //      host: 'localhost',
 //      dialect: 'postgres'
@@ -60,7 +35,9 @@ sequelize.authenticate()
     console.error("unable to connect via sequelize", err);
 });
 
-
+/*This function prepares the SQL query for the 100 values. Since we're on a shared
+database in production this isn't necessary. The codes probably not very good either but
+I used it locally so figured i'd keep it here.*/
 function prepareQuery(){
 
   let finalQuery = 'INSERT INTO colors (color_code) VALUES ';
@@ -136,16 +113,10 @@ app.get('/colors/:color_id', (req, res) => {
         console.log(results);
         res.render('color', {color_code: results.dataValues.color_code, color_id: results.dataValues.color_id});
     })
-    //res.send(req.params);
 })
 
 
 app.get('/colors', (req, res) => {
-    /*Color.findAll({
-        attributes: ['color_id', 'color_code']
-    }).then(colors => {
-        console.log("All colors: ", JSON.stringify(colors, null, 4));
-    });*/
     Color.findAndCountAll({
         limit: req.query.limit,
         offset: req.skip,
@@ -155,12 +126,7 @@ app.get('/colors', (req, res) => {
         const pageCount = Math.ceil(results.count / req.query.limit);
         console.log(results.rows);
         res.render('colors', { title: "well", message: "hello colors", colors: results.rows, pageCount, itemCount, pages: paginate.getArrayPages(req)(3, pageCount, req.query.page)})
-    //});
-//        console.log("All colors: ", JSON.stringify(colors, null, 4));
     });
-
-
-    //res.send("sequeliiiiiize");
 });
 
 
@@ -175,66 +141,11 @@ app.get('/', (req, res) => {
         const itemCount = results.count;
         const pageCount = Math.ceil(results.count / req.query.limit);
         console.log(results.rows);
-        res.send("aaahhh so messy");
-        //res.render('colors', { title: "well", message: "hello colors", colors: results.rows, pageCount, itemCount, pages: paginate.getArrayPages(req)(3, pageCount, req.query.page)})
-    //});
-//        console.log("All colors: ", JSON.stringify(colors, null, 4));
+        res.render('colors', { title: "well", message: "hello colors", colors: results.rows, pageCount, itemCount, pages: paginate.getArrayPages(req)(3, pageCount, req.query.page)})
     });
 
-/*    pool.query('SELECT * FROM colors ORDER BY color_id ASC', (error, results) => {
-      if (error) {
-        throw error
-      }*/
-
-//    response.json({ info: 'Node.js, Express, and Postgres API' })
-      /*if (results.rows.length < 100) {
-        console.log("indenting sucks in VSCode!");
-        let theQuery = prepareQuery();
-        console.log(theQuery);
-
-        pool.query(theQuery, (error, results) => {
-            if (error) {
-                throw error
-            }
-        })
-
-      } else {
-        console.log("100 rows or more");
-      }
-
-    });*/
-    //response.render('index', { title: 'Hey', message: 'Hello there!' })
+      /*I had an if statement here that would populate the database if the colors didn't exist. */
 })
-
-
-
-
-/*app.get('/colors', (req, res) => {
-    console.log("hiiiii");
-
-    pool.query('SELECT * FROM colors ORDER BY color_id ASC', (error, results) => {
-      if (error) {
-        throw error
-      }
-
-      //let limitedResults = results.limit(req.query.limit).skip(req.skip).lean().exec()
-      //console.log("imited results");
-      //console.log(limitedResults);
-
-      let pageCount = Math.ceil(results.rows.length / req.query.limit);
-      let itemCount = results.rows.length;
-      //console.log("page count...");
-      //console.log(pageCount);
-      //console.log(typeof pageCount);
-      //console.log(paginate.getArrayPages(req)(10, pageCount, req.query.page));
-
-//      return results.rows;
-      //response.status(200).json(results.rows)
-    res.render('colors', { title: "well", message: "hello colors", colors: results.rows, pageCount, itemCount, pages: paginate.getArrayPages(req)(3, pageCount, req.query.page)})
-    });
-
-//    res.render('colors', { title: "well", message: "hello colors", colors: "chaa"})
-})*/
 
   app.listen(port, () => {
     console.log(`App running on port ${port}.`)
