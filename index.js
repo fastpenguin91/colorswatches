@@ -7,13 +7,14 @@ const port = process.env.PORT || 5000
 const paginate = require('express-paginate');
 
 const Pool = require('pg').Pool
-const pool = new Pool({
+const pool = new Pool(process.env.DATABASE_URL);
+/*const pool = new Pool({
   user: 'postgres',
   host: 'localhost',
   database: 'colorsapp',
   password: 'password',
   port: 5432,
-})
+})*/
 
 const Sequelize = require('sequelize');
 
